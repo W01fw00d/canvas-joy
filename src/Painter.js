@@ -1,7 +1,9 @@
 class Painter
 {
-  constructor()
+  constructor(random)
   {
+    this.random = random;
+
     this.canvas = document.getElementById("canvas");
 
     this.canvas.width = window.innerWidth;
@@ -10,53 +12,49 @@ class Painter
     this.context = this.canvas.getContext("2d");
   }
 
-  paintAll(color)
+  pixelRandom(size, color)
+  {
+    const x = this.random.chooseFrom0To(this.canvas.width);
+  	const y = this.random.chooseFrom0To(this.canvas.height);
+
+    this.pixel(x, y, size, color);
+  }
+
+  pixel(x, y, size, color)
   {
     this.context.fillStyle = color;
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillRect(x, y, size, size);
   }
 
-  smoothPixels()
+  randomPlus(centerColor, exteriorColor)
   {
-  	this.context.translate(1, 1);
-    this.context.lineWidth = 0.5;
+    const x = this.random.chooseFrom0To(this.canvas.width);
+  	const y = this.random.chooseFrom0To(this.canvas.height);
+
+    this.pixel(x, y, 1, centerColor);
+  	this.circle(x, y, 1, exteriorColor)
   }
 
-  drawRandomPositionStar(color)
-  {
-  	var x = Math.floor(Math.random() * this.canvas.width);
-  	var y = Math.floor(Math.random() * this.canvas.height);
+  circle(x, y, size, color) {
+    this.context.fillStyle = color;
 
-  	this.drawStar(x, y, 1, color);
-  }
-
-  drawStar(x, y, size, color)
-  {
-      this.context.fillStyle = color;
-      this.context.fillRect(x, y, size, size);
-  }
-
-  drawBigStar(x, y, size)
-  {
-  	this.context.fillStyle = '#FFFFFF';
-  	this.context.fillRect(x, y, size, size);
-  	this.context.fillStyle = makeRandomColor();
-  	this.context.fillRect(x + 1, y, size, size);
+    this.context.fillRect(x + 1, y, size, size);
   	this.context.fillRect(x, y + 1, size, size);
   	this.context.fillRect(x - 1, y, size, size);
   	this.context.fillRect(x, y - 1, size, size);
   }
 
-  makeRandomColor()
+  all(color)
   {
-      var letters = '0123456789ABCDEF'.split('');
-      var color = '#';
+    this.context.fillStyle = color;
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
 
-      for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-      }
-
-      return color;
+  //TODO : necessary? Not used
+  smoothPixels()
+  {
+  	this.context.translate(1, 1);
+    this.context.lineWidth = 0.5;
   }
 
 }
