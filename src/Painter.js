@@ -12,6 +12,43 @@ class Painter
     this.context = this.canvas.getContext("2d");
   }
 
+  //TODO improve this
+  randomBeam(color)
+  {
+    const amplitude = this.random.chooseFrom0To(this.canvas.width);
+
+    //TODO density should be related to the amplitude
+    const density = this.random.chooseFrom0To(amplitude / 100);
+
+    const startX = this.random.chooseFrom0To(this.canvas.width);
+    const startY = this.random.chooseFrom0To(this.canvas.height);
+
+    const endX = this.random.chooseInRange(startX, this.canvas.width);
+    const endY = this.random.chooseInRange(startY, this.canvas.height);
+
+    let x, y;
+
+    let j = startY;
+
+    for (let i = startX; i < endX && j < endY; i++) {
+        j++;
+
+        x = i;
+        for (let z = 0; z < density; z++) {
+          y = this.random.chooseInRange(j - amplitude, j + amplitude);
+          if (this.isInsideCanvas(x, y)) {
+            this.pixel(x, y, 1, color);
+          }
+        }
+
+    }
+  }
+
+  isInsideCanvas(x, y)
+  {
+    return !(x < 0 || x > this.canvas.width || y < 0 || y  > this.canvas.height);
+  }
+
   pixelRandom(size, color)
   {
     const x = this.random.chooseFrom0To(this.canvas.width);

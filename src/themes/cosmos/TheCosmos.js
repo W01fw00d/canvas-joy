@@ -24,6 +24,7 @@ class TheCosmos
     this.paintTheVoid();
     this.createCommonStars();
     this.createBigStars();
+    this.createMilkyWay();
   }
 
   paintTheVoid()
@@ -47,6 +48,11 @@ class TheCosmos
       this.starMaker.drawRandomBigStar,
       this
     );
+  }
+
+  createMilkyWay()
+  {
+    this.starMaker.drawMilkyWay();
   }
 
 }
